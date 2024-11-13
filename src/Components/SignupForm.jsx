@@ -53,7 +53,7 @@ export default function SignupForm({ setisLogedin }) {
             setAccountType("student");
           }}
         >
-          Student
+          Customer
         </button>
         <button
           className={`${
@@ -65,7 +65,7 @@ export default function SignupForm({ setisLogedin }) {
             setAccountType("instructor");
           }}
         >
-          Instructor
+          Dealer
         </button>
       </div>
       <form onSubmit={submithandler}>

@@ -50,9 +50,9 @@ function Contact() {
             <p className="text-gray-700 mb-6">
               Visit our head office or contact us today:
             </p>
-            <p className="text-gray-900 font-semibold">Head Office</p>
+            <p className="text-gray-900 font-semibold">Address </p>
             <p>Shivaji park, adjacent to BOB Bank, New Delhi, 110026</p>
-            <p className="text-gray-900 mt-2">Email: adding@gmai.com</p>
+            <p className="text-gray-900 mt-2">Email: kjami2911@gmai.com</p>
             <p className="text-gray-900">Contact Here: (+91) 9773649449</p>
             <p className="text-gray-900">
               Hours: Monday to Saturday, 9:00 AM - 5:00 PM
