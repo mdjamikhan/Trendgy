@@ -72,7 +72,7 @@ PORT=9000
 
 
 ## 📷 Screenshots
-![Homepage Screenshot](./screenshots/Screenshot.png)
+![Homepage Screenshot](./assets/Screenshot(4).png)
 
 
 
