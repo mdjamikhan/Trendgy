@@ -60,8 +60,7 @@ npm start
 Create a `.env` file in the `server` directory and add the following:
 ```env
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-PORT=5000
+PORT=9000
 ```
 
 ## 📜 API Routes
@@ -70,15 +69,7 @@ PORT=5000
 - `POST /api/auth/login` → User login
 - `GET /api/auth/user` → Get user details
 
-### Products
-- `GET /api/products` → Fetch all products
-- `POST /api/products` → Add a new product (Admin)
-- `PUT /api/products/:id` → Update a product (Admin)
-- `DELETE /api/products/:id` → Delete a product (Admin)
 
-### Orders
-- `POST /api/orders` → Place an order
-- `GET /api/orders/:userId` → Fetch user orders
 
 ## 📷 Screenshots
 ![Homepage Screenshot](./screenshots/Screenshot.png)
