@@ -80,5 +80,5 @@ PORT=9000
 
 
 ## 🌐 Live Demo
-[(Include deployment link if available)](https://trendgy-c9g8.vercel.app/)
+[(Trengy Website)](https://trendgy-c9g8.vercel.app/)
 
