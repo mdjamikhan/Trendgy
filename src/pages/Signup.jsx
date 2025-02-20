@@ -1,7 +1,7 @@
 import Template from "../Components/Template";
 import signupImg from "../assets/signup.png";
 
-function Signup({ setisLogedin }) {
+function Signup({ setIsLogedin }) {
   return (
     <Template
       title="Join us today! Sign up now to unlock exclusive offers."
@@ -9,7 +9,7 @@ function Signup({ setisLogedin }) {
       desc2="Unlock the best deals and tailor-made recommendations—sign up and start saving today!"
       image={signupImg}
       formtype="signup"
-      setisLogedin={setisLogedin}
+      setIsLogedin={setIsLogedin}
     />
   );
 }

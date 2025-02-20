@@ -5,7 +5,6 @@ import Categ from "../Categeory/Categ";
 import Footer from "../Components/Footer";
 
 import AddtoCart from "../Components/AddtoCart";
-import toast from "react-hot-toast";
 
 export default function Category({
   allItems,

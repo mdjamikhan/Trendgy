@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function LoginForm({ setisLogedin }) {
+export default function LoginForm({ setIsLogedin }) {
   const [formData, setformData] = useState({
     email: "",
     password: "",
@@ -18,13 +18,27 @@ export default function LoginForm({ setisLogedin }) {
       [event.target.name]: event.target.value,
     }));
   }
-  function submithandler(event) {
+  const API_BASE_URL = process.env.REACT_APP_BASE_URL;
+  const submithandler = async (event) => {
     event.preventDefault();
-    setisLogedin(true);
-    console.log(formData);
-    toast.success("Logged In");
-    navigate("/Dashboard");
-  }
+
+    const res = await fetch(`${API_BASE_URL}/Login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...formData }),
+    });
+    const newRes = await res.json();
+    if (res.ok && newRes.success) {
+      setIsLogedin(true);
+      console.log(formData);
+      toast.success("Logged In");
+      navigate("/");
+    } else {
+      toast.error("Invalid User");
+    }
+  };
 
   return (
     <form

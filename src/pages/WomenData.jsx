@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function WomenData({ product, setAllItems }) {
-  const { image, title, price } = product;
+  const { id, image, title, price } = product; // Added id here
   const [isAdded, setIsAdded] = useState(false);
   const [seemore, setseemore] = useState(false);
 
@@ -19,9 +19,11 @@ export default function WomenData({ product, setAllItems }) {
       return newIsAdded;
     });
   };
+
   function toggleExpansion() {
     setseemore(!seemore);
   }
+
   return (
     <div className="w-100 h-100 flex flex-col items-center justify-between hover:scale-105 hover:shadow-2xl transition duration-300 ease-in gap-2 p-3 mt-8 ml-4 rounded-lg shadow-md border border-white-300 bg-richblack-700">
       <div className="h-60 flex items-center justify-center">

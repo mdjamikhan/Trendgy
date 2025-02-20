@@ -2,7 +2,7 @@ import React from "react";
 import Template from "../Components/Template";
 import loginImg from "../assets/3405349.jpg";
 
-function Login({ setisLogedin }) {
+function Login({ setIsLogedin }) {
   return (
     // <h2>Login</h2>
     <Template
@@ -11,7 +11,7 @@ function Login({ setisLogedin }) {
       desc2="Ready to shop? Log in to access your wishlist, order history, and more!"
       image={loginImg}
       formtype="login"
-      setisLogedin={setisLogedin}
+      setIsLogedin={setIsLogedin}
     />
   );
 }

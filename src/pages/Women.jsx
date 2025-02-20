@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { detail2 as Data23 } from "./Data23";
 import WomenData from "./WomenData";
 import Footer from "../Components/Footer";
+import AddtoCart from "../Components/AddtoCart";
 
 export default function Women({
   allItems,

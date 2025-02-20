@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 function Products({ product, setAllItems }) {
-  if (!product) {
-    return <p>Product data is missing.</p>;
-  }
-
   const { id, image, title, price } = product;
   const [isAdded, setIsAdded] = useState(false);
   const [seemore, setseemore] = useState([]);
+  if (!product) {
+    return <p>Product data is missing.</p>;
+  }
 
   const changeHandler = () => {
     setIsAdded((prevIsAdded) => {

@@ -21,7 +21,7 @@ function App() {
   const [allItems, setAllItems] = useState([]);
 
   return (
-    <div className="w-screen h-screen bg-richblack-900 flex-col">
+    <div className="w-screen h-screen flex-col">
       <Navbar
         isLogedin={isLogedin}
         setIsLogedin={setIsLogedin}

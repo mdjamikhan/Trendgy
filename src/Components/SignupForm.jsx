@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function SignupForm({ setisLogedin }) {
+export default function SignupForm({ setIsLogedin }) {
   const navigate = useNavigate();
-  const [formData, setformData] = useState({
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -13,66 +13,83 @@ export default function SignupForm({ setisLogedin }) {
     confirmPassword: "",
   });
 
-  const [showPassword, setshowPassword] = useState(false);
-  const [confirmPassword, setconfirmPassword] = useState(false);
-  const [AccountType, setAccountType] = useState("student");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const API_BASE_URL = process.env.REACT_APP_BASE_URL;
 
   function changeHandler(event) {
-    setformData((prevData) => ({
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
       ...prevData,
-      [event.target.name]: event.target.value,
+      [name]: value.trim(),
     }));
   }
-  const finalData = {
-    ...formData,
-    AccountType,
-  };
-  function submithandler(event) {
-    event.preventDefault();
-    if (formData.password != formData.confirmPassword) {
-      toast.error("password is not same");
-    } else {
-      toast.success("Account Created");
-      console.log(finalData);
 
-      setisLogedin(true);
-      navigate("/Dashboard");
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    for (let key in formData) {
+      if (!formData[key]) {
+        toast.error(`${key} is required.`);
+        return;
+      }
     }
-  }
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+
+    const userData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email.toLowerCase(),
+      password: formData.password,
+    };
+
+    console.log("Submitting user data:", userData);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/createUser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+      console.log("Server Response:", result);
+
+      if (response.ok) {
+        toast.success("Account Created Successfully!");
+        setIsLogedin(true);
+        navigate("/");
+      } else {
+        toast.error(result.message || "Signup failed. Try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Network error! Please try again.");
+    }
+  };
 
   return (
     <div>
-      <div className="flex bg-richblack-800 p-1 my-6 gap-x-1 rounded-full max-w-max">
-        <button
-          className={`${
-            AccountType === "student"
-              ? "bg-richblack-900 text-richblack-5"
-              : "text-richblack-200 bg-transparent"
-          } py-2 px-5 rounded-full transition-all duration-200`}
-          onClick={() => {
-            setAccountType("student");
-          }}
-        >
-          Customer
-        </button>
-        <button
-          className={`${
-            AccountType === "instructor"
-              ? "bg-richblack-900 text-richblack-5"
-              : "text-richblack-200 bg-transparent"
-          } py-2 px-5 rounded-full transition-all duration-200`}
-          onClick={() => {
-            setAccountType("instructor");
-          }}
-        >
-          Dealer
-        </button>
-      </div>
-      <form onSubmit={submithandler}>
-        <div className=" flex gap-x-4 mt-[20px]">
-          {/* First Name */}
+      <form onSubmit={submitHandler}>
+        <div className="flex gap-x-4 mt-[20px]">
           <label className="w-full">
-            <p className=" text-[0.875rem] text-richblack-5  mb-1 leading-[1.375rem]">
+            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
               First Name <sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -85,9 +102,9 @@ export default function SignupForm({ setisLogedin }) {
               className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
             />
           </label>
-          {/* Last Name */}
+
           <label className="w-full">
-            <p className=" text-[0.875rem] text-richblack-5  mb-1 leading-[1.375rem]">
+            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
               Last Name <sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -101,11 +118,11 @@ export default function SignupForm({ setisLogedin }) {
             />
           </label>
         </div>
-        {/* Email Address */}
+
         <div className="mt-[20px]">
           <label className="w-full">
-            <p className="text-[0.875rem] text-richblack-5  mb-1 leading-[1.375rem]">
-              Enter Email <sup className="text-pink-200">*</sup>
+            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
+              Email <sup className="text-pink-200">*</sup>
             </p>
             <input
               type="email"
@@ -119,10 +136,9 @@ export default function SignupForm({ setisLogedin }) {
           </label>
         </div>
 
-        {/* Password */}
         <div className="flex gap-x-4 mt-[20px]">
-          <label className="relative w-full ">
-            <p className=" text-[0.875rem] text-richblack-5  mb-1 leading-[1.375rem]">
+          <label className="relative w-full">
+            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
               Create Password <sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -135,8 +151,8 @@ export default function SignupForm({ setisLogedin }) {
               className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
             />
             <span
-              className=" absolute right-3 top-[38px] cursor-pointer"
-              onClick={() => setshowPassword((prev) => !prev)}
+              className="absolute right-3 top-[38px] cursor-pointer"
+              onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? (
                 <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
@@ -146,24 +162,24 @@ export default function SignupForm({ setisLogedin }) {
             </span>
           </label>
 
-          <label className=" w-full relative">
-            <p className=" text-[0.875rem] text-richblack-5  mb-1 leading-[1.375rem]">
+          <label className="relative w-full">
+            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
               Confirm Password <sup className="text-pink-200">*</sup>
             </p>
             <input
-              type={confirmPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               required
               name="confirmPassword"
               onChange={changeHandler}
               placeholder="Confirm Password"
               value={formData.confirmPassword}
-              className="   bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+              className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
             />
             <span
-              className=" absolute right-3 top-[38px] cursor-pointer"
-              onClick={() => setconfirmPassword((prev) => !prev)}
+              className="absolute right-3 top-[38px] cursor-pointer"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
             >
-              {confirmPassword ? (
+              {showConfirmPassword ? (
                 <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
               ) : (
                 <AiOutlineEye fontSize={24} fill="#AFB2BF" />
@@ -171,9 +187,10 @@ export default function SignupForm({ setisLogedin }) {
             </span>
           </label>
         </div>
+
         <button
           type="submit"
-          className=" w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6"
+          className="w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6"
         >
           Create Account
         </button>
